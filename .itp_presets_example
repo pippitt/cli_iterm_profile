@@ -1,0 +1,5 @@
+#preset_name,R##:G##:B##,profile_name,'stuff to echo, possibly a command or other notes'
+PROD_PAO,255:0:0,solarized-light,
+QA,255:255:0,solarized-dark,
+nagios,175:75:130,solarized-light,
+DEV,75:0:130,solarized-dark,'export PS1="\[\e]0;DEV \w\a\]${debian_chroot:+($debian_chroot)}\u@\h.\e[0;31m\e[0m:\w\n# "\n ssh user@server.name.com'
