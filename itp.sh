@@ -9,8 +9,38 @@
 #Written by Matt Pippitt to change iTerm2 look and feel from the command line
 
 #variables
-PRESETSFILE=~/.itp_presets
-COLORSFILE=~/itp_colors.list
+#annoying block to look where the script is, then set that directory to search for presets and colors
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  TARGET="$(readlink "$SOURCE")"
+  if [[ $TARGET == /* ]]; then
+    SOURCE="$TARGET"
+  else
+    DIR="$( dirname "$SOURCE" )"
+    SOURCE="$DIR/$TARGET" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+  fi
+done
+RDIR="$( dirname "$SOURCE" )"
+ITPDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+#end annoying block
+
+#Set variables, look in ~ first then $ITPDIR
+#TODO maybe set something if neither exist to change the script behavior, like not show menu options
+if [ -f ~/itp_presets ] ; then
+  PRESETSFILE=~/itp_presets
+elif [ -f $ITPDIR/itp_presets ] ; then
+  PRESETSFILE=$ITPDIR/itp_presets
+else
+  PRESETSFILE=notset
+fi
+
+if [ -f ~/itp_colors.list ] ; then
+  COLORSFILE=~/itp_colors.list
+elif [ -f $ITPDIR/itp_colors.list ] ; then
+  COLORSFILE=$ITPDIR/itp_colors.list
+else
+  COLORSFILE=notset
+fi
 
 showhelp() {
     echo "Usage: $0 [OPTION(S)]"
@@ -280,6 +310,7 @@ Enter selection or x to quit:  "
 menu() {
   while  true  ; do
     clear
+    #pippitt
     echo -n "**** Iterm settings menu *****
 1. Presets
 2. Profiles
