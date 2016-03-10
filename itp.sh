@@ -246,13 +246,13 @@ Enter selection or x to quit:  "
           TC=`grep ^$PRESET $PRESETSFILE|awk -F, '{print $2}'|tr ':' ' '`
           PROFILE=`grep ^$PRESET $PRESETSFILE|awk -F, '{print $3}'`
           ECHOCMD=`grep ^$PRESET $PRESETSFILE|awk -F, '{print $4}'`
-          tab-color $TC
           profiles $PROFILE
           if [ ! -z "$ECHOCMD" ] ; then
               echo COMMAND NOTES:
               echo $ECHOCMD
               read junk
           fi
+          tab-color $TC
           echo "For faster preset run:"
           echo `basename $0` -P $PRESET
           read junk
@@ -355,8 +355,8 @@ while getopts ":P:p:t:R:" opt; do
                     TC=`grep ^$PRESET, $PRESETSFILE|awk -F, '{print $2}'|tr ':' ' '`
                     PROFILE=`grep ^$PRESET, $PRESETSFILE|awk -F, '{print $3}'`
                     ECHOCMD=`grep ^$PRESET, $PRESETSFILE|awk -F, '{print $4}'`
-                    tab-color $TC
                     profiles $PROFILE
+                    tab-color $TC
                     if [ ! -z "$ECHOCMD" ] ; then
                         echo COMMAND NOTES:
                         echo $ECHOCMD
