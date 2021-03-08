@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 #started with info from
 # source iterm2.zsh
