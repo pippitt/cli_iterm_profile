@@ -45,6 +45,7 @@ fi
 showhelp() {
     echo "Usage: $0 [OPTION(S)]"
     echo "Options: "
+    echo "  -b [badge text]"
     echo "  -P [preset name]"
     echo "  -p [profile name]"
     echo "  -t [colon separate RGB values] i.e 255:0:0 for red"
@@ -216,7 +217,16 @@ Enter selection or x to quit:  "
 }
 
 tab-reset() {
-    echo -ne "\033]6;1;bg;*;default\a"
+  echo -ne "\033]6;1;bg;*;default\a"
+}
+ 
+session-badge() {
+  if [ -z "$BADGE" ] ; then
+    echo -n  "Enter badge text:  "
+    read BADGE
+  fi
+  printf "\e]1337;SetBadgeFormat=%s\a"  $(echo -n "$BADGE" | base64)
+
 }
  
 presets() {
@@ -273,8 +283,6 @@ Enter selection or x to quit:  "
 
 profiles() {
     echo -ne "\033]50;SetProfile=$1\a"
-#default
-#    echo -ne "\033]50;SetProfile\a"
   
 }
 
@@ -310,12 +318,12 @@ Enter selection or x to quit:  "
 menu() {
   while  true  ; do
     clear
-    #pippitt
     echo -n "**** Iterm settings menu *****
 1. Presets
 2. Profiles
 3. Tab colors
-4. Tab reset
+4. Session badge
+5. Tab reset
 x. Exit
 
 Enter selection or x to quit:  "
@@ -332,6 +340,9 @@ Enter selection or x to quit:  "
         tab-color-picker
         ;;
       4)
+        session-badge
+        ;;
+      5)
         tab-reset
         ;;
       x|q|X|Q)
@@ -345,8 +356,14 @@ Enter selection or x to quit:  "
   done
 }
 
-while getopts ":P:p:t:R:" opt; do
+while getopts ":b:P:p:t:R:" opt; do
     case $opt in
+        b)
+          #should error check
+          BADGE=$OPTARG
+          session-badge $BADGE
+          exit
+          ;;
         P)
             if [ -s $PRESETSFILE ] ; then
                 PRESET=$OPTARG
