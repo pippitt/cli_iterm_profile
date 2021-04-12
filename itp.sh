@@ -341,6 +341,7 @@ Enter selection or x to quit:  "
         ;;
       4)
         session-badge
+        BADGE=""
         ;;
       5)
         tab-reset
